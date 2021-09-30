@@ -27,6 +27,7 @@ class AddFragment : Fragment() {
             insertToDataBase()
         }
         mUserViewModel = UserViewModel(requireActivity().application)
+        mUserViewModel.
         return binding.root
     }
 
