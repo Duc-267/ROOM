@@ -10,8 +10,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.room.R
-import com.example.room.data.User
-import com.example.room.data.UserViewModel
+import com.example.room.model.User
+import com.example.room.viewmodel.UserViewModel
 import com.example.room.databinding.FragmentAddBinding
 
 class AddFragment : Fragment() {
@@ -27,7 +27,6 @@ class AddFragment : Fragment() {
             insertToDataBase()
         }
         mUserViewModel = UserViewModel(requireActivity().application)
-        mUserViewModel.
         return binding.root
     }
 
@@ -46,7 +45,7 @@ class AddFragment : Fragment() {
     }
 
     private fun checkInput(firstName: String, lastName: String, age: Editable): Boolean {
-        return !(TextUtils.isEmpty(firstName) && TextUtils.isEmpty(lastName) && age.isEmpty())
+        return !(TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || age.isEmpty())
     }
 
 }

@@ -2,11 +2,12 @@ package com.example.room.fragments.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.room.data.User
+import com.example.room.model.User
 import com.example.room.databinding.ItemHolderBinding
 
-class ListAdapter(): RecyclerView.Adapter<ListAdapter.ListHolder>() {
+class ListAdapter: RecyclerView.Adapter<ListAdapter.ListHolder>() {
     private var listUser = emptyList<User>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListHolder {
@@ -20,11 +21,16 @@ class ListAdapter(): RecyclerView.Adapter<ListAdapter.ListHolder>() {
         holder.firstName.text = currentItem.firstName
         holder.lastName.text = currentItem.lastName
         holder.id.text = currentItem.id.toString()
+        holder.tempBinding.rowLayout.setOnClickListener {
+            val action = ListFragmentDirections.actionListFragmentToUpdateFragment(currentItem)
+            holder.tempBinding.rowLayout.findNavController().navigate(action)
+        }
     }
 
     override fun getItemCount(): Int = listUser.size
 
     inner class ListHolder(binding:ItemHolderBinding):RecyclerView.ViewHolder(binding.root) {
+        val tempBinding = binding
         val id = binding.tvId
         val firstName = binding.tvFirstName
         val lastName = binding.tvLastName
