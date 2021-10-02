@@ -1,5 +1,7 @@
 package com.example.room.fragments.update
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -57,7 +59,21 @@ class UpdateFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.menu_delete){
-            
+            val builder = AlertDialog.Builder(requireContext())
+                .setTitle("Delete")
+                .setMessage("Do you want to delete this user?")
+                .setIcon(R.drawable.ic_delete)
+                .setPositiveButton("Yes"){ _: DialogInterface, _: Int ->
+                    mUserViewModel.deleteUser(args.currentUser)
+                    Toast.makeText(requireContext(), "You removed ${args.currentUser.firstName}",
+                        Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(R.id.action_updateFragment_to_listFragment)
+                }
+                .setNegativeButton("No"){ _: DialogInterface, _: Int ->
+
+                }
+                .create()
+            builder.show()
         }
         return super.onOptionsItemSelected(item)
     }

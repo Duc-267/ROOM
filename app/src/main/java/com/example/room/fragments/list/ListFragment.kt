@@ -1,10 +1,11 @@
 package com.example.room.fragments.list
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
+import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,8 +34,32 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        setHasOptionsMenu(true)
         return binding.root
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.delete_menu, menu)
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.menu_delete){
+            val builder = AlertDialog.Builder(requireContext())
+                .setTitle("Delete")
+                .setMessage("Do you want to delete all users?")
+                .setIcon(R.drawable.ic_delete)
+                .setPositiveButton("Yes"){ _: DialogInterface, _: Int ->
+                    mUserViewModel.deleteAllUser()
+                    Toast.makeText(requireContext(), "You removed all users",
+                        Toast.LENGTH_SHORT).show()
+                }
+                .setNegativeButton("No"){ _: DialogInterface, _: Int ->
+
+                }
+                .create()
+            builder.show()
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }
